@@ -1,0 +1,2 @@
+# Ignore helm's go yaml templates
+charts/**/templates/*.yaml
