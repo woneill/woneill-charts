@@ -56,7 +56,7 @@ service:
     discovery: 21027
 
 ingress:
-  enabled: false
+  enabled: true
   className: ""
   annotations:
     {}
