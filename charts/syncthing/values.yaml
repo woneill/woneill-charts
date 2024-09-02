@@ -159,6 +159,3 @@ nodeSelector: {}
 tolerations: []
 
 affinity: {}
-
-# "statefulset" or "deployment"
-deploymentType: "deployment"
