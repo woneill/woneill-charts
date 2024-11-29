@@ -12,6 +12,6 @@ version: 0.1.0
 # incremented each time you make changes to the application. Versions are not expected to
 # follow Semantic Versioning. They should reflect the version the application is using.
 # It is recommended to use it with quotes.
-appVersion: "0.107.54"
+appVersion: "v0.107.54"
 
 icon: https://st.agrd.eu/favicons/adguard/favicon.svg
