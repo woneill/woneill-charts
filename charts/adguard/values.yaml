@@ -165,7 +165,6 @@ config:
       enabled: false
     address: 0.0.0.0:3000
     session_ttl: 720h
-  # users: []
   users:
     - name: "{{ .Values.auth.name }}"
       password: '{{ htpasswd .Values.auth.name .Values.auth.password | splitList ":" | last }}'
@@ -191,6 +190,8 @@ config:
     fallback_dns: []
     upstream_mode: load_balance
     fastest_timeout: 1s
+    allowed_clients: []
+    disallowed_clients: []
     blocked_hosts:
       - version.bind
       - id.server
