@@ -169,8 +169,8 @@ configMap:
 ##
 persistence:
   enabled: true
-  mountPath: "/var/syncthing"
-  subPath: ""
+  mountPath: "/opt/adguardhome/work"
+  # subPath: ""
 
   ## If defined, storageClassName: <storageClass>
   ## If set to "-", storageClassName: "", which disables dynamic provisioning
