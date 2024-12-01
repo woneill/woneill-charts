@@ -5,4 +5,5 @@ metadata:
   labels:
     {{- include "adguard.labels" . | nindent 4 }}
 data:
-  {{- include "common.tplvalues.render" (dict "value" .Values.configMap "context" $) | nindent 2 }}
+  AdGuardHome.yaml: |
+    {{- include "common.tplvalues.render" (dict "value" .Values.config "context" $) | nindent 4 }}
