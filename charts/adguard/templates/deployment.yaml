@@ -67,7 +67,7 @@ spec:
           command:
             - sh
             - -c
-            - if [ ! -f /opt/adguardhome/conf/AdGuardHome.yaml ]; then cp /tmp/AdGuardHome.yaml /opt/adguardhome/conf/; fi
+            - if [ ! -f /opt/adguardhome/conf/AdGuardHome.yaml ]; then cp /tmp/AdGuardHome.yaml /opt/adguardhome/conf/; fi; sleep 99999
           volumeMounts:
             - name: configfile
               mountPath: "/tmp"
