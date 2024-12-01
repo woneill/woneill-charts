@@ -55,14 +55,25 @@ spec:
             - name: data
               mountPath: "/opt/adguardhome/work"
               subPath: work
-            # - name: data
-            #   mountPath: "/opt/adguardhome/conf"
-            #   subPath: conf
-            - name: configfile
+            - name: data
               mountPath: "/opt/adguardhome/conf"
+              subPath: conf
           {{- with .Values.volumeMounts }}
             {{- toYaml . | nindent 12 }}
           {{- end }}
+      initContainers:
+        - name: configPrep
+          image: busybox
+          command:
+            - sh
+            - -c
+            - if [ ! -f /opt/adguardhome/conf/AdGuardHome.yaml ]; then cp /tmp/AdGuardHome.yaml /opt/adguardhome/conf/; fi
+          volumeMounts:
+            - name: configfile
+              mountPath: "/tmp"
+            - name: data
+              mountPath: "/opt/adguardhome/conf"
+              subPath: conf
       volumes:
         - name: data
           persistentVolumeClaim:
