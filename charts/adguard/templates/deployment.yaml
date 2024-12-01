@@ -55,9 +55,9 @@ spec:
             - name: data
               mountPath: "/opt/adguardhome/work"
               subPath: work
-            - name: data
-              mountPath: "/opt/adguardhome/conf"
-              subPath: conf
+            # - name: data
+            #   mountPath: "/opt/adguardhome/conf"
+            #   subPath: conf
             - name: configfile
               mountPath: "/opt/adguardhome/conf"
           {{- with .Values.volumeMounts }}
@@ -70,9 +70,6 @@ spec:
         - name: configfile
           configMap:
             name: {{ include "adguard.fullname" . }}
-            items:
-              - key: AdGuardHome.yaml
-                path: AdGuardHome.yaml
       {{- with .Values.volumes }}
         {{- toYaml . | nindent 8 }}
       {{- end }}
