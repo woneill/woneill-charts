@@ -1,0 +1,327 @@
+# Default values for adguard.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+# This will set the replicaset count more information can be found here: https://kubernetes.io/docs/concepts/workloads/controllers/replicaset/
+replicaCount: 1
+
+updateStrategy:
+  type: Recreate
+
+# This sets the container image more information can be found here: https://kubernetes.io/docs/concepts/containers/images/
+image:
+  repository: adguard/adguardhome
+  # This sets the pull policy for images.
+  pullPolicy: IfNotPresent
+  # Overrides the image tag whose default is the chart appVersion.
+  tag: ""
+
+# This is for the secretes for pulling an image from a private repository more information can be found here: https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/
+imagePullSecrets: []
+# This is to override the chart name.
+nameOverride: ""
+fullnameOverride: ""
+
+# This section builds out the service account more information can be found here: https://kubernetes.io/docs/concepts/security/service-accounts/
+serviceAccount:
+  # Specifies whether a service account should be created
+  create: true
+  # Automatically mount a ServiceAccount's API credentials?
+  automount: true
+  # Annotations to add to the service account
+  annotations: {}
+  # The name of the service account to use.
+  # If not set and create is true, a name is generated using the fullname template
+  name: ""
+
+# This is for setting Kubernetes Annotations to a Pod.
+# For more information checkout: https://kubernetes.io/docs/concepts/overview/working-with-objects/annotations/
+podAnnotations: {}
+# This is for setting Kubernetes Labels to a Pod.
+# For more information checkout: https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/
+podLabels: {}
+
+podSecurityContext:
+  {}
+  # fsGroup: 1000
+
+securityContext:
+  {}
+  # capabilities:
+  #   drop:
+  #     - ALL
+  # readOnlyRootFilesystem: true
+  # runAsNonRoot: true
+  # runAsUser: 1000
+
+# This is for setting up a service more information can be found here: https://kubernetes.io/docs/concepts/services-networking/service/
+service:
+  # This sets the service type more information can be found here: https://kubernetes.io/docs/concepts/services-networking/service/#publishing-services-service-types
+  type: LoadBalancer
+  externalTrafficPolicy: Local
+  # This sets the ports more information can be found here: https://kubernetes.io/docs/concepts/services-networking/service/#field-spec-ports
+  ports:
+    - name: web-admin
+      protocol: TCP
+      port: 3000
+      targetPort: 3000
+    - name: web-interface
+      protocol: TCP
+      port: 80
+      targetPort: 80
+    - name: dns-udp
+      protocol: UDP
+      port: 53
+      targetPort: 53
+    - name: dns-tcp
+      protocol: TCP
+      port: 53
+      targetPort: 53
+  annotations: {}
+
+resources:
+  {}
+  # We usually recommend not to specify default resources and to leave this as a conscious
+  # choice for the user. This also increases chances charts run on environments with little
+  # resources, such as Minikube. If you do want to specify resources, uncomment the following
+  # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+  # limits:
+  #   cpu: 100m
+  #   memory: 128Mi
+  # requests:
+  #   cpu: 100m
+  #   memory: 128Mi
+
+# This is to setup the liveness and readiness probes more information can be found here: https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/
+# livenessProbe:
+#   httpGet:
+#     path: /
+#     port: http
+#   initialDelaySeconds: 30
+#   periodSeconds: 10
+# readinessProbe:
+#   httpGet:
+#     path: /
+#     port: http
+#   initialDelaySeconds: 15
+#   periodSeconds: 10
+
+deploymentPorts:
+  - containerPort: 53
+    name: dns-udp
+    protocol: UDP
+  - containerPort: 53
+    name: dns-tcp
+    protocol: TCP
+  - containerPort: 3000
+    name: http-initial
+    protocol: TCP
+  - containerPort: 80
+    name: http
+    protocol: TCP
+
+# Additional volumes on the output Deployment definition.
+volumes: {}
+
+# Additional volumeMounts on the output Deployment definition.
+volumeMounts: {}
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}
+
+## Enable persistence using Persistent Volume Claims
+## ref: https://kubernetes.io/docs/concepts/storage/persistent-volumes/
+##
+persistence:
+  enabled: true
+  mountPath: "/opt/adguardhome/work"
+  # subPath: ""
+
+  ## If defined, storageClassName: <storageClass>
+  ## If set to "-", storageClassName: "", which disables dynamic provisioning
+  ## If undefined (the default) or set to null, no storageClassName spec is
+  ##   set, choosing the default provisioner.  (gp2 on AWS, standard on
+  ##   GKE, AWS & OpenStack)
+  ##
+  storageClass: ""
+  annotations: {}
+  accessModes:
+    - ReadWriteOnce
+  size: 8Gi
+  existingClaim: ""
+  selector: {}
+  dataSource: {}
+
+auth:
+  name: admin
+  password: admin123
+
+config:
+  http:
+    pprof:
+      port: 6060
+      enabled: false
+    address: 0.0.0.0:3000
+    session_ttl: 720h
+  users:
+    - name: "{{ .Values.auth.name }}"
+      password: '{{ htpasswd .Values.auth.name .Values.auth.password | splitList ":" | last }}'
+  auth_attempts: 5
+  block_auth_min: 15
+  http_proxy: ""
+  language: ""
+  theme: auto
+  dns:
+    bind_hosts:
+      - 0.0.0.0
+    port: 53
+    anonymize_client_ip: false
+    ratelimit: 0
+    ratelimit_subnet_len_ipv4: 24
+    ratelimit_subnet_len_ipv6: 56
+    ratelimit_whitelist: []
+    refuse_any: true
+    upstream_dns:
+      - https://dns10.quad9.net/dns-query
+    upstream_dns_file: ""
+    bootstrap_dns:
+      - 9.9.9.10
+      - 149.112.112.10
+      - 2620:fe::10
+      - 2620:fe::fe:10
+    fallback_dns: []
+    upstream_mode: load_balance
+    fastest_timeout: 1s
+    allowed_clients: []
+    disallowed_clients: []
+    blocked_hosts:
+      - version.bind
+      - id.server
+      - hostname.bind
+    trusted_proxies:
+      - 127.0.0.0/8
+      - ::1/128
+    cache_size: 4194304
+    cache_ttl_min: 0
+    cache_ttl_max: 0
+    cache_optimistic: false
+    bogus_nxdomain: []
+    aaaa_disabled: false
+    enable_dnssec: false
+    edns_client_subnet:
+      custom_ip: ""
+      enabled: false
+      use_custom: false
+    max_goroutines: 300
+    handle_ddr: true
+    ipset: []
+    ipset_file: ""
+    bootstrap_prefer_ipv6: false
+    upstream_timeout: 10s
+    private_networks: []
+    use_private_ptr_resolvers: true
+    local_ptr_upstreams: []
+    use_dns64: false
+    dns64_prefixes: []
+    serve_http3: false
+    use_http3_upstreams: false
+    serve_plain_dns: true
+    hostsfile_enabled: true
+  tls:
+    enabled: false
+    server_name: ""
+    force_https: false
+    port_https: 443
+    port_dns_over_tls: 853
+    port_dns_over_quic: 853
+    port_dnscrypt: 0
+    dnscrypt_config_file: ""
+    allow_unencrypted_doh: false
+    certificate_chain: ""
+    private_key: ""
+    certificate_path: ""
+    private_key_path: ""
+    strict_sni_check: false
+  querylog:
+    dir_path: ""
+    ignored: []
+    interval: 2160h
+    size_memory: 1000
+    enabled: true
+    file_enabled: true
+  statistics:
+    dir_path: ""
+    ignored: []
+    interval: 24h
+    enabled: true
+  filters:
+    - enabled: true
+      url: https://adguardteam.github.io/HostlistsRegistry/assets/filter_1.txt
+      name: AdGuard DNS filter
+      id: 1
+    - enabled: true
+      url: https://adguardteam.github.io/HostlistsRegistry/assets/filter_2.txt
+      name: AdAway Default Blocklist
+      id: 2
+  whitelist_filters: []
+  user_rules: []
+  dhcp:
+    enabled: false
+  filtering:
+    blocking_ipv4: ""
+    blocking_ipv6: ""
+    blocked_services:
+      schedule:
+        time_zone: UTC
+      ids: []
+    protection_disabled_until: null
+    safe_search:
+      enabled: false
+      bing: true
+      duckduckgo: true
+      ecosia: true
+      google: true
+      pixabay: true
+      yandex: true
+      youtube: true
+    blocking_mode: default
+    parental_block_host: family-block.dns.adguard.com
+    safebrowsing_block_host: standard-block.dns.adguard.com
+    rewrites: []
+    safe_fs_patterns:
+      - /opt/adguardhome/work/userfilters/*
+    safebrowsing_cache_size: 1048576
+    safesearch_cache_size: 1048576
+    parental_cache_size: 1048576
+    cache_time: 30
+    filters_update_interval: 24
+    blocked_response_ttl: 10
+    filtering_enabled: true
+    parental_enabled: false
+    safebrowsing_enabled: false
+    protection_enabled: true
+  clients:
+    runtime_sources:
+      whois: true
+      arp: true
+      rdns: true
+      dhcp: false
+      hosts: true
+    persistent: []
+  log:
+    enabled: true
+    file: ""
+    max_backups: 0
+    max_size: 100
+    max_age: 3
+    compress: false
+    local_time: false
+    verbose: false
+  os:
+    group: ""
+    user: ""
+    rlimit_nofile: 0
+  schema_version: 29
