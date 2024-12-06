@@ -158,6 +158,7 @@ persistence:
 auth:
   name: admin
   password: admin123
+  passwordhash: null
 
 config:
   http:
@@ -168,7 +169,7 @@ config:
     session_ttl: 720h
   users:
     - name: "{{ .Values.auth.name }}"
-      password: '{{ htpasswd .Values.auth.name .Values.auth.password | splitList ":" | last }}'
+      password: '{{ coalesce .Values.auth.passwordhash (htpasswd .Values.auth.name .Values.auth.password | splitList ":" | last) }}'
   auth_attempts: 5
   block_auth_min: 15
   http_proxy: ""
