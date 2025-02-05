@@ -13,6 +13,8 @@ version: 0.3.0
 # follow Semantic Versioning. They should reflect the version the application is using.
 # It is recommended to use it with quotes.
 # See: https://github.com/AdguardTeam/AdGuardHome/releases
+#
+# renovate: image=adguard/adguardhome
 appVersion: "v0.107.55"
 
 icon: https://st.agrd.eu/favicons/adguard/favicon.svg
