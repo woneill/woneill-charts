@@ -1,0 +1,4 @@
+{
+    "extends": ["github>woneill/.github:renovate-config"],
+    "ignorePresets": ["docker:pinDigests"]
+}
