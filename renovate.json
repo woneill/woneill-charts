@@ -1,4 +1,11 @@
 {
     "extends": ["github>woneill/.github:renovate-config"],
-    "ignorePresets": ["docker:pinDigests"]
+    "ignorePresets": ["docker:pinDigests"],
+    "packageRules": [
+        {
+            "matchDatasources": ["docker"],
+            "matchPackageNames": ["syncthing/syncthing", "adguard/adguardhome"],
+            "versioning": "semver"
+        }
+    ]
 }
