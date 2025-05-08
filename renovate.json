@@ -1,11 +1,19 @@
 {
-    "extends": ["github>woneill/.github:renovate-config"],
-    "ignorePresets": ["docker:pinDigests"],
-    "packageRules": [
-        {
-            "matchDatasources": ["docker"],
-            "matchPackageNames": ["syncthing/syncthing", "adguard/adguardhome"],
-            "versioning": "semver"
-        }
-    ]
+  "extends": ["github>woneill/.github:renovate-config"],
+  "ignorePresets": ["docker:pinDigests"],
+  "packageRules": [
+    {
+      "matchDatasources": ["docker"],
+      "matchPackageNames": ["syncthing/syncthing", "adguard/adguardhome"],
+      "versioning": "semver"
+    },
+    {
+      "matchFileNames": ["charts/**"],
+      "bumpVersions": {
+        "filePatterns": ["{{packageFileDir}}/Chart.{yaml,yml}"],
+        "matchStrings": ["version:\\s(?<version>[^\\s]+)"],
+        "bumpType": "{{#if isPatch}}patch{{else}}minor{{/if}}"
+      }
+    }
+  ]
 }
