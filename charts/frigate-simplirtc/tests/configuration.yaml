@@ -1,0 +1,37 @@
+suite: test configuration management
+templates:
+  - configmap.yaml
+  - token.yaml
+tests:
+  - it: should work with config.token
+    set:
+      config.token: "TooManySecrets"
+    asserts:
+      - isKind:
+          of: Secret
+        template: token.yaml
+      - equal:
+          path: data["token"]
+          value: '"TooManySecrets"'
+          decodeBase64: true
+        template: token.yaml
+  - it: should work with config.cameras
+    set:
+      config:
+        cameras:
+          back_yard:
+            location: "1234567"
+            uuid: "12345678901234567890123456789012"
+    asserts:
+      - isKind:
+          of: ConfigMap
+        template: configmap.yaml
+      - equal:
+          path: data
+          value:
+            go2rtc.yaml: |
+              streams:
+                back_yard:
+                  - echo:simplirtc --token=/config/go2rtc/token stream --location=1234567 --camera=12345678901234567890123456789012
+                  - ffmpeg:back_yard#audio=opus/16000
+        template: configmap.yaml

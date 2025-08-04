@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "frigate-simplirtc.fullname" . }}
+  labels:
+    {{- include "frigate-simplirtc.labels" . | nindent 4 }}
+data:
+  go2rtc.yaml: |
+    streams:
+      {{- range $key, $value := .Values.config.cameras }}
+      {{ $key }}:
+        - echo:simplirtc --token=/config/go2rtc/token stream --location={{ $value.location }} --camera={{ $value.uuid }}
+        - ffmpeg:{{ $key }}#audio=opus/16000
+      {{- end }}
