@@ -144,6 +144,17 @@ entries:
     urls:
     - https://github.com/woneill/woneill-charts/releases/download/adguard-0.1.0/adguard-0.1.0.tgz
     version: 0.1.0
+  frigate-simplirtc:
+  - apiVersion: v2
+    appVersion: 1.0.0
+    created: "2025-08-04T21:10:07.100623987Z"
+    description: A Helm chart for running Simplirtc
+    digest: 31da496de5804870906e0c1ead0e9338299286eaec4581a7af08e4e3da268de7
+    name: frigate-simplirtc
+    type: application
+    urls:
+    - https://github.com/woneill/woneill-charts/releases/download/frigate-simplirtc-0.1.0/frigate-simplirtc-0.1.0.tgz
+    version: 0.1.0
   syncthing:
   - apiVersion: v2
     appVersion: 1.30.0
@@ -299,4 +310,4 @@ entries:
     urls:
     - https://github.com/woneill/woneill-charts/releases/download/syncthing-0.0.1/syncthing-0.0.1.tgz
     version: 0.0.1
-generated: "2025-07-29T04:12:19.811200318Z"
+generated: "2025-08-04T21:10:07.100689159Z"
