@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: Secret
+metadata:
+  name: {{ include "frigate-simplirtc.fullname" . }}
+  labels:
+    {{- include "frigate-simplirtc.labels" . | nindent 4 }}
+data:
+  token: {{ default "" .Values.config.token | quote | b64enc }}

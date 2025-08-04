@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: "{{ include "frigate-simplirtc.fullname" . }}-test-connection"
+  labels:
+    {{- include "frigate-simplirtc.labels" . | nindent 4 }}
+  annotations:
+    "helm.sh/hook": test
+spec:
+  containers:
+    - name: wget
+      image: busybox
+      command: ['wget']
+      args: ['{{ include "frigate-simplirtc.fullname" . }}:1984']
+  restartPolicy: Never
