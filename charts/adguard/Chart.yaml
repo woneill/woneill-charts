@@ -6,7 +6,7 @@ type: application
 # This is the chart version. This version number should be incremented each time you make changes
 # to the chart and its templates, including the app version.
 # Versions are expected to follow Semantic Versioning (https://semver.org/)
-version: 0.3.10
+version: 0.3.11
 
 # This is the version number of the application being deployed. This version number should be
 # incremented each time you make changes to the application. Versions are not expected to
@@ -15,6 +15,6 @@ version: 0.3.10
 # See: https://github.com/AdguardTeam/AdGuardHome/releases
 #
 # renovate: image=adguard/adguardhome
-appVersion: "v0.107.65"
+appVersion: "v0.107.66"
 
 icon: https://st.agrd.eu/favicons/adguard/favicon.svg
