@@ -2,6 +2,17 @@ apiVersion: v1
 entries:
   adguard:
   - apiVersion: v2
+    appVersion: v0.107.69
+    created: "2025-11-02T19:27:49.922690823Z"
+    description: A Helm chart for installing adguard
+    digest: cf83c62303f8d722e8c578959aeb57b731918d07db38f1c4da45fd0a9826b0e9
+    icon: https://st.agrd.eu/favicons/adguard/favicon.svg
+    name: adguard
+    type: application
+    urls:
+    - https://github.com/woneill/woneill-charts/releases/download/adguard-0.3.14/adguard-0.3.14.tgz
+    version: 0.3.14
+  - apiVersion: v2
     appVersion: v0.107.68
     created: "2025-10-26T12:33:23.705004217Z"
     description: A Helm chart for installing adguard
@@ -398,4 +409,4 @@ entries:
     urls:
     - https://github.com/woneill/woneill-charts/releases/download/syncthing-0.0.1/syncthing-0.0.1.tgz
     version: 0.0.1
-generated: "2025-10-26T12:33:23.705147204Z"
+generated: "2025-11-02T19:27:49.922861802Z"
