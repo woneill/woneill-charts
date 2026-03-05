@@ -245,6 +245,17 @@ entries:
     version: 0.1.0
   syncthing:
   - apiVersion: v2
+    appVersion: 2.0.15
+    created: "2026-03-05T04:51:51.639942348Z"
+    description: A Helm chart for Kubernetes
+    digest: 4996a7565cd30ef034fc23adbf47b00876055a4b2e4074199fe1fffc9179aaee
+    icon: https://docs.syncthing.net/_static/favicon.png
+    name: syncthing
+    type: application
+    urls:
+    - https://github.com/woneill/woneill-charts/releases/download/syncthing-0.2.8/syncthing-0.2.8.tgz
+    version: 0.2.8
+  - apiVersion: v2
     appVersion: 2.0.14
     created: "2026-02-05T04:53:39.824842568Z"
     description: A Helm chart for Kubernetes
@@ -486,4 +497,4 @@ entries:
     urls:
     - https://github.com/woneill/woneill-charts/releases/download/syncthing-0.0.1/syncthing-0.0.1.tgz
     version: 0.0.1
-generated: "2026-02-21T04:41:26.361410114Z"
+generated: "2026-03-05T04:51:51.640110572Z"
